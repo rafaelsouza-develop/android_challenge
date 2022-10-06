@@ -14,25 +14,27 @@ import kotlinx.coroutines.launch
 
 class HomeViewModel(private val movieUsecase: MovieUsecase) : ViewModel() {
 
-    private val _movieLiveData = MutableLiveData<ViewState<List<MovieVO>, ResponseStatus>>()
-    val movieLiveData: LiveData<ViewState<List<MovieVO>, ResponseStatus>> = _movieLiveData
+    val viewState = MutableLiveData<HomeViewState>()
+    val actionState = MutableLiveData<HomeActionState>()
 
-    fun getMovies() {
+    init {
+        getMovies()
+    }
+
+    private fun getMovies() {
         viewModelScope.launch {
+            viewState.value = HomeViewState.Loading
             when (val response = movieUsecase.getMovies()) {
                 is ResultRequest.Success -> {
 
                     response.data.let {
 
-                        _movieLiveData.postValue(
-                            ViewState(response.data.map { movie ->
-                                movie.toVO()
-                            }, ResponseStatus.SUCCESS)
-                        )
+                        val movies = response.data.map { movie -> movie.toVO() }
+                        viewState.value = HomeViewState.MoviesLoaded(movies)
                     }
                 }
                 is ResultRequest.Failure -> {
-                    _movieLiveData.postValue(ViewState(null, ResponseStatus.ERROR, response.throwable))
+                    viewState.value = HomeViewState.MoviesLoadFailure(response.throwable)
                 }
             }
         }
