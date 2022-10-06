@@ -3,6 +3,7 @@ package com.itau.starwars_challenge
 import android.app.Application
 import android.content.Context
 import com.itau.starwars_challenge.di.networkModule
+import com.itau.starwars_challenge.di.repositoryModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 
@@ -19,6 +20,7 @@ class StarWarsApplication : Application() {
             modules(
                 listOf(
                     networkModule,
+                    repositoryModule
 
                 )
             )
