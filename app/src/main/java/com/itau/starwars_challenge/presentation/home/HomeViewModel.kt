@@ -7,15 +7,11 @@ import androidx.lifecycle.viewModelScope
 import com.itau.starwars_challenge.data.ResultRequest
 import com.itau.starwars_challenge.domain.usecase.MovieUsecase
 import com.itau.starwars_challenge.mapper.domaintoview.toVO
-import com.itau.starwars_challenge.presentation.model.MovieVO
-import com.itau.starwars_challenge.util.ResponseStatus
-import com.itau.starwars_challenge.util.ViewState
 import kotlinx.coroutines.launch
 
 class HomeViewModel(private val movieUsecase: MovieUsecase) : ViewModel() {
 
     val viewState = MutableLiveData<HomeViewState>()
-    val actionState = MutableLiveData<HomeActionState>()
 
     init {
         getMovies()
