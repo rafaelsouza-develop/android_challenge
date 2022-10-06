@@ -5,5 +5,5 @@ import com.itau.starwars_challenge.domain.repository.MovieRepository
 import org.koin.dsl.module
 
 val repositoryModule = module {
-    factory<MovieRepository> { MovieRepositoryImpl(get()) }
+    factory<MovieRepository> { MovieRepositoryImpl(movieService = get()) }
 }
