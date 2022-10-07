@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">Star Wars - Challenge</string>
     <string name="title_toolbar">Filmes Star Wars</string>
+
+    <!-- Item Movie -->
+    <string name="label_director">Diretor</string>
+    <string name="label_release">Data Lançamento:</string>
 </resources>
