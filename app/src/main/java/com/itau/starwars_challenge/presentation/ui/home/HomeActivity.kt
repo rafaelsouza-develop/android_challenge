@@ -1,6 +1,7 @@
 package com.itau.starwars_challenge.presentation.ui.home
 
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -26,15 +27,14 @@ class HomeActivity : AppCompatActivity() {
         viewModel.viewState.observe(this) { viewState ->
             when (viewState) {
                 is HomeViewState.MoviesLoaded -> {
+                    showSucessState()
                     setRecyclerViewList(viewState.movies)
                 }
                 HomeViewState.Loading -> {
-
-
+                    showLoadingState()
                 }
                 is HomeViewState.MoviesLoadFailure -> {
-
-
+                    showErrorState()
                 }
             }
         }
@@ -44,6 +44,30 @@ class HomeActivity : AppCompatActivity() {
         binding.rvMovies.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = MoviesAdapter(movies)
+        }
+    }
+
+    private fun showErrorState() {
+        with(binding) {
+            rvMovies.visibility = View.GONE
+            containerErrorState.visibility = View.VISIBLE
+            containerLoadingState.visibility = View.GONE
+        }
+    }
+
+    private fun showSucessState() {
+        with(binding) {
+            rvMovies.visibility = View.VISIBLE
+            containerErrorState.visibility = View.GONE
+            containerLoadingState.visibility = View.GONE
+        }
+    }
+
+    private fun showLoadingState() {
+        with(binding) {
+            rvMovies.visibility = View.GONE
+            containerErrorState.visibility = View.GONE
+            containerLoadingState.visibility = View.VISIBLE
         }
     }
 }

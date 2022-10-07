@@ -5,4 +5,7 @@
     <!-- Item Movie -->
     <string name="label_director">Diretor</string>
     <string name="label_release">Data Lançamento:</string>
+
+    <!--Empty State -->
+    <string name="txt_error_state_big_text">Infelizmente tivemos um erro ao carregar o seus filmes, retorne em outro momento.</string>
 </resources>
