@@ -3,6 +3,7 @@ package com.itau.starwars_challenge.presentation.ui.home
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.itau.starwars_challenge.databinding.ItemMovieBinding
 import com.itau.starwars_challenge.presentation.model.MovieVO
 
@@ -27,6 +28,12 @@ class MoviesAdapter(private val movies: List<MovieVO>):RecyclerView.Adapter<Movi
                  txtTitle.text = item.title
                  txtDirector.text = item.director
                  txtRelease.text = item.releaseDate
+
+                 Glide
+                     .with(binding.root)
+                     .load(item.cover)
+                     .centerCrop()
+                     .into(imgCover);
              }
          }
      }
