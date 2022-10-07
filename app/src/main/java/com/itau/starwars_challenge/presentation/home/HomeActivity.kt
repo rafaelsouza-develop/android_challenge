@@ -14,6 +14,7 @@ class HomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setupObservables(viewModel)
+        viewModel.dispatcherViewAction(HomeViewAction.GetMovies)
     }
 
     private fun setupObservables(viewModel: HomeViewModel) {
