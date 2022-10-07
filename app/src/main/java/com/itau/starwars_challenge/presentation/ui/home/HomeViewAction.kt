@@ -1,4 +1,4 @@
-package com.itau.starwars_challenge.presentation.home
+package com.itau.starwars_challenge.presentation.ui.home
 
 sealed class HomeViewAction {
 

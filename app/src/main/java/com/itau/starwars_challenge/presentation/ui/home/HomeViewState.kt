@@ -1,4 +1,4 @@
-package com.itau.starwars_challenge.presentation.home
+package com.itau.starwars_challenge.presentation.ui.home
 
 import com.itau.starwars_challenge.presentation.model.MovieVO
 
