@@ -19,7 +19,7 @@ class HomeViewModel(private val movieUsecase: MovieUsecase) : ViewModel() {
     private val _viewAction = MutableLiveData<HomeViewState>()
     val viewAction: LiveData<HomeViewState> = _viewAction
 
-    private lateinit var movies: List<MovieVO>
+    private  var movies = listOf<MovieVO>()
 
 
     fun dispatcherViewAction(action: HomeViewAction) {
