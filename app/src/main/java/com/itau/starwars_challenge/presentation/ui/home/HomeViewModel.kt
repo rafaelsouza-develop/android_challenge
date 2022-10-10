@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.itau.starwars_challenge.domain.model.MovieEntity
 import com.itau.starwars_challenge.domain.repository.MovieRepository
-import com.itau.starwars_challenge.presentation.model.MovieVO
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 
