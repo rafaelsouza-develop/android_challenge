@@ -7,6 +7,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.itau.starwars_challenge.R
 import com.itau.starwars_challenge.databinding.ActivityMainBinding
+import com.itau.starwars_challenge.domain.model.MovieEntity
 import com.itau.starwars_challenge.presentation.model.MovieVO
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -40,7 +41,7 @@ class HomeActivity : AppCompatActivity() {
         }
     }
 
-    private fun setRecyclerViewList(movies: List<MovieVO>) {
+    private fun setRecyclerViewList(movies: List<MovieEntity>) {
         binding.rvMovies.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = MoviesAdapter(movies)

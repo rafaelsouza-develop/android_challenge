@@ -5,9 +5,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.itau.starwars_challenge.databinding.ItemMovieBinding
+import com.itau.starwars_challenge.domain.model.MovieEntity
 import com.itau.starwars_challenge.presentation.model.MovieVO
 
-class MoviesAdapter(private val movies: List<MovieVO>):RecyclerView.Adapter<MoviesAdapter.ViewHolder>() {
+class MoviesAdapter(private val movies: List<MovieEntity>):RecyclerView.Adapter<MoviesAdapter.ViewHolder>() {
 
 
 
@@ -23,7 +24,7 @@ class MoviesAdapter(private val movies: List<MovieVO>):RecyclerView.Adapter<Movi
     override fun getItemCount() = movies.size
 
      class ViewHolder(private val binding: ItemMovieBinding) : RecyclerView.ViewHolder(binding.root){
-         fun bind(item: MovieVO){
+         fun bind(item: MovieEntity){
              with(binding){
                  txtTitle.text = item.title
                  txtDirector.text = item.director
