@@ -1,7 +1,6 @@
-package com.itau.starwars_challenge.di
+package com.itau.network.di
 
 import com.google.gson.Gson
-import com.itau.starwars_challenge.data.service.MovieService
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.dsl.module
@@ -39,5 +38,5 @@ val networkModule = module {
         }
     }
 
-    single { get<Retrofit>().create(MovieService::class.java) }
+
 }

@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.itau.starwars_challenge.R
 import com.itau.starwars_challenge.databinding.ActivityMainBinding
 import com.itau.starwars_challenge.domain.model.MovieEntity
-import com.itau.starwars_challenge.presentation.model.MovieVO
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class HomeActivity : AppCompatActivity() {
