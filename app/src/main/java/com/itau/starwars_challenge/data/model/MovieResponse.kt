@@ -4,17 +4,17 @@ import com.google.gson.annotations.SerializedName
 
 data class MovieResponse(
     @SerializedName("cover")
-    var cover: String?,
+    val cover: String?,
 
     @SerializedName("title")
-    var title: String?,
+    val title: String?,
 
     @SerializedName("director")
-    var director: String?,
+    val director: String?,
 
     @SerializedName("episode_id")
-    var episodeId: String?,
+    val episodeId: String?,
 
     @SerializedName("release_date")
-    var releaseDate: String?
+    val releaseDate: String?
 )

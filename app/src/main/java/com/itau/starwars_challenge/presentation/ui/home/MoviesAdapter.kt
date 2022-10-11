@@ -6,7 +6,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.itau.starwars_challenge.databinding.ItemMovieBinding
 import com.itau.starwars_challenge.domain.model.MovieEntity
-import com.itau.starwars_challenge.presentation.model.MovieVO
 
 class MoviesAdapter(private val movies: List<MovieEntity>):RecyclerView.Adapter<MoviesAdapter.ViewHolder>() {
 
@@ -34,7 +33,7 @@ class MoviesAdapter(private val movies: List<MovieEntity>):RecyclerView.Adapter<
                      .with(binding.root)
                      .load(item.cover)
                      .centerCrop()
-                     .into(imgCover);
+                     .into(imgCover)
              }
          }
      }

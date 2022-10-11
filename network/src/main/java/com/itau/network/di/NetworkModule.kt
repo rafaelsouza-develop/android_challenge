@@ -24,6 +24,7 @@ val networkModule = module {
             .addInterceptor(get<HttpLoggingInterceptor>())
             .build()
     }
+
     single {
         Retrofit.Builder()
             .addConverterFactory(get<GsonConverterFactory>())
@@ -37,6 +38,4 @@ val networkModule = module {
             level = HttpLoggingInterceptor.Level.BODY
         }
     }
-
-
 }
