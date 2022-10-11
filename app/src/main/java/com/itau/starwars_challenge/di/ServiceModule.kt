@@ -6,5 +6,5 @@ import retrofit2.Retrofit
 
 val serviceModule = module {
 
-    single { get<Retrofit>().create(MovieService::class.java) }
+    factory { get<Retrofit>().create(MovieService::class.java) }
 }
