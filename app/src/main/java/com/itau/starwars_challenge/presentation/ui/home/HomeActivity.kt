@@ -36,6 +36,9 @@ class HomeActivity : AppCompatActivity() {
                 is HomeViewState.MoviesLoadFailure -> {
                     showErrorState()
                 }
+                HomeViewState.MoviesEmpty -> {
+                    showEmptyState()
+                }
             }
         }
     }
@@ -52,6 +55,7 @@ class HomeActivity : AppCompatActivity() {
             rvMovies.visibility = View.GONE
             containerErrorState.visibility = View.VISIBLE
             containerLoadingState.visibility = View.GONE
+            containerEmptyState.visibility = View.GONE
         }
     }
 
@@ -60,6 +64,7 @@ class HomeActivity : AppCompatActivity() {
             rvMovies.visibility = View.VISIBLE
             containerErrorState.visibility = View.GONE
             containerLoadingState.visibility = View.GONE
+            containerEmptyState.visibility = View.GONE
         }
     }
 
@@ -68,6 +73,16 @@ class HomeActivity : AppCompatActivity() {
             rvMovies.visibility = View.GONE
             containerErrorState.visibility = View.GONE
             containerLoadingState.visibility = View.VISIBLE
+            containerEmptyState.visibility = View.GONE
+        }
+    }
+
+    private fun showEmptyState() {
+        with(binding) {
+            rvMovies.visibility = View.GONE
+            containerErrorState.visibility = View.GONE
+            containerLoadingState.visibility = View.GONE
+            containerEmptyState.visibility = View.VISIBLE
         }
     }
 }
