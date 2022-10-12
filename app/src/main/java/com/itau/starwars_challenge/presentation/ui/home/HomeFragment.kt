@@ -1,30 +1,44 @@
 package com.itau.starwars_challenge.presentation.ui.home
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
+import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.itau.starwars_challenge.R
-import com.itau.starwars_challenge.databinding.ActivityMainBinding
+import com.itau.starwars_challenge.databinding.FragmentHomeBinding
 import com.itau.starwars_challenge.domain.model.MovieEntity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class HomeActivity : AppCompatActivity() {
+class HomeFragment : Fragment() {
 
     private val viewModel: HomeViewModel by viewModel()
-    private lateinit var binding: ActivityMainBinding
-
+    private lateinit var binding: FragmentHomeBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        binding = DataBindingUtil.setContentView(requireActivity(), R.layout.fragment_home)
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+
+        return inflater.inflate(R.layout.fragment_home, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         setupObservables(viewModel)
         viewModel.dispatcherViewAction(HomeViewAction.GetMovies)
     }
 
     private fun setupObservables(viewModel: HomeViewModel) {
-        viewModel.viewState.observe(this) { viewState ->
+        viewModel.viewState.observe(viewLifecycleOwner) { viewState ->
             when (viewState) {
                 is HomeViewState.MoviesLoaded -> {
                     showSucessState()
@@ -34,13 +48,17 @@ class HomeActivity : AppCompatActivity() {
                     showLoadingState()
                 }
                 is HomeViewState.MoviesLoadFailure -> {
-                    showErrorState()
+                    goToErrorView()
                 }
                 HomeViewState.MoviesEmpty -> {
-                    showEmptyState()
+
                 }
             }
         }
+    }
+
+    private fun goToErrorView() {
+        findNavController().navigate(R.id.action_homeFragment_to_errorFragment)
     }
 
     private fun setRecyclerViewList(movies: List<MovieEntity>) {
@@ -50,39 +68,17 @@ class HomeActivity : AppCompatActivity() {
         }
     }
 
-    private fun showErrorState() {
+    private fun showLoadingState() {
         with(binding) {
             rvMovies.visibility = View.GONE
-            containerErrorState.visibility = View.VISIBLE
-            containerLoadingState.visibility = View.GONE
-            containerEmptyState.visibility = View.GONE
+            containerLoadingState.visibility = View.VISIBLE
         }
     }
 
     private fun showSucessState() {
         with(binding) {
             rvMovies.visibility = View.VISIBLE
-            containerErrorState.visibility = View.GONE
             containerLoadingState.visibility = View.GONE
-            containerEmptyState.visibility = View.GONE
-        }
-    }
-
-    private fun showLoadingState() {
-        with(binding) {
-            rvMovies.visibility = View.GONE
-            containerErrorState.visibility = View.GONE
-            containerLoadingState.visibility = View.VISIBLE
-            containerEmptyState.visibility = View.GONE
-        }
-    }
-
-    private fun showEmptyState() {
-        with(binding) {
-            rvMovies.visibility = View.GONE
-            containerErrorState.visibility = View.GONE
-            containerLoadingState.visibility = View.GONE
-            containerEmptyState.visibility = View.VISIBLE
         }
     }
 }

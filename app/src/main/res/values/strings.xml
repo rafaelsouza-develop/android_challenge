@@ -11,4 +11,5 @@
 
     <!--Empty State -->
     <string name="txt_empty_state_big_text">Parece que a lista de filmes está vazia.</string>
+    
 </resources>
