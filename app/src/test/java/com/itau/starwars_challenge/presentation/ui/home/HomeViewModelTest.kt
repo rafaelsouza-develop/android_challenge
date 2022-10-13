@@ -6,11 +6,8 @@ import com.itau.starwars_challenge.MainDispatcherRule
 import com.itau.starwars_challenge.domain.model.MovieEntity
 import com.itau.starwars_challenge.domain.repository.MovieRepository
 import com.itau.starwars_challenge.getOrAwaitValue
-import io.mockk.MockKAnnotations
-import io.mockk.coEvery
+import io.mockk.*
 import io.mockk.impl.annotations.MockK
-import io.mockk.mockk
-import io.mockk.spyk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runTest
@@ -77,7 +74,24 @@ class HomeViewModelTest {
 
         viewModel.dispatcherViewAction(HomeViewAction.GetMovies)
 
-        assertEquals(HomeViewState.MoviesLoadFailure(error), viewModel.viewState.getOrAwaitValue())
+        val captor = mutableListOf<HomeViewState>(HomeViewState.MoviesLoadFailure(error))
+        coVerify { observerMock.onChanged(capture(captor)) }
+    }
 
+    @Test
+    fun `GIVEN user needs to getMovies WHEN call getMovies THEN return empty list`() = runTest {
+
+
+        coEvery {
+            repository.getMovies()
+        } returns flow { emptyList<MovieEntity>() }
+
+        val observerMock: Observer<HomeViewState> = mockk()
+        viewModel.viewState.observeForever(observerMock)
+
+        viewModel.dispatcherViewAction(HomeViewAction.GetMovies)
+
+        val captor = mutableListOf<HomeViewState>(HomeViewState.MoviesEmpty)
+        coVerify { observerMock.onChanged(capture(captor)) }
     }
 }
