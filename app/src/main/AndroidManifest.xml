@@ -3,6 +3,7 @@
     package="com.itau.starwars_challenge">
 
     <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".StarWarsApplication"
         android:allowBackup="true"
@@ -12,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.StarWarsChallenge">
         <activity
-            android:name="com.itau.starwars_challenge.presentation.ui.home.HomeActivity"
+            android:name=".presentation.ui.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

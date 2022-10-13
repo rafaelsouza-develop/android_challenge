@@ -4,22 +4,19 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.itau.starwars_challenge.data.ResultRequest
-import com.itau.starwars_challenge.domain.usecase.MovieUsecase
-import com.itau.starwars_challenge.mapper.domaintoview.toVO
-import com.itau.starwars_challenge.presentation.model.MovieVO
+import com.itau.starwars_challenge.domain.model.MovieEntity
+import com.itau.starwars_challenge.domain.repository.MovieRepository
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 
-class HomeViewModel(private val movieUsecase: MovieUsecase) : ViewModel() {
+class HomeViewModel(private val movieRepository: MovieRepository) : ViewModel() {
 
 
     private val _viewState = MutableLiveData<HomeViewState>()
     val viewState: LiveData<HomeViewState> = _viewState
 
-    private val _viewAction = MutableLiveData<HomeViewState>()
-    val viewAction: LiveData<HomeViewState> = _viewAction
 
-    private  var movies = listOf<MovieVO>()
+    private var movies = listOf<MovieEntity>()
 
 
     fun dispatcherViewAction(action: HomeViewAction) {
@@ -30,9 +27,9 @@ class HomeViewModel(private val movieUsecase: MovieUsecase) : ViewModel() {
     }
 
     private fun getMovies() {
-        if(movies.isNotEmpty()){
+        if (movies.isNotEmpty()) {
             _viewState.value = HomeViewState.MoviesLoaded(movies)
-        }else{
+        } else {
             fetchMovies()
         }
     }
@@ -40,19 +37,16 @@ class HomeViewModel(private val movieUsecase: MovieUsecase) : ViewModel() {
     private fun fetchMovies() {
         viewModelScope.launch {
             _viewState.value = HomeViewState.Loading
-            when (val response = movieUsecase.getMovies()) {
-                is ResultRequest.Success -> {
-
-                    response.data.let {
-
-                        movies = response.data.map { movie -> movie.toVO() }
-                        _viewState.value = HomeViewState.MoviesLoaded(movies)
+            movieRepository.getMovies()
+                .catch { _viewState.value = HomeViewState.MoviesLoadFailure(it) }
+                .collect {
+                    if (it.isNullOrEmpty()) {
+                        _viewState.value = HomeViewState.MoviesEmpty
+                    } else {
+                        movies = it
+                        _viewState.value = HomeViewState.MoviesLoaded(it)
                     }
                 }
-                is ResultRequest.Failure -> {
-                    _viewState.value = HomeViewState.MoviesLoadFailure(response.throwable)
-                }
-            }
         }
     }
 }
