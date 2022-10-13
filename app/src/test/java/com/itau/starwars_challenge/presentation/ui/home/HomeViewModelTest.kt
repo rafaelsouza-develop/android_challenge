@@ -49,7 +49,7 @@ class HomeViewModelTest {
     }
 
     @Test
-    fun `GIVEN user needs to getMovies WHEN call getMovies THEN return success `() = runTest {
+    fun `GIVEN user needs to getMovies WHEN call getMovies THEN return before return success must show LOADING `() = runTest {
 
         coEvery {
             repository.getMovies()
@@ -59,6 +59,23 @@ class HomeViewModelTest {
 
         assertEquals(HomeViewState.Loading, viewModel.viewState.value)
 
+    }
+
+    @Test
+    fun `GIVEN user needs to getMovies WHEN call getMovies THEN return success `() = runTest {
+
+
+        coEvery {
+            repository.getMovies()
+        } returns flow { listOf<MovieEntity>() }
+
+        val observerMock: Observer<HomeViewState> = mockk()
+        viewModel.viewState.observeForever(observerMock)
+
+        viewModel.dispatcherViewAction(HomeViewAction.GetMovies)
+
+        val captor = mutableListOf<HomeViewState>(HomeViewState.MoviesLoaded(listOf()))
+        coVerify { observerMock.onChanged(capture(captor)) }
     }
 
     @Test
