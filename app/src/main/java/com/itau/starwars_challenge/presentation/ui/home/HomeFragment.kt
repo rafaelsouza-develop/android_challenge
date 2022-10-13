@@ -51,7 +51,7 @@ class HomeFragment : Fragment() {
                     goToErrorView()
                 }
                 HomeViewState.MoviesEmpty -> {
-
+                    goToEmptyView()
                 }
             }
         }
@@ -59,6 +59,10 @@ class HomeFragment : Fragment() {
 
     private fun goToErrorView() {
         findNavController().navigate(R.id.action_homeFragment_to_errorFragment)
+    }
+
+    private fun goToEmptyView() {
+        findNavController().navigate(R.id.action_homeFragment_to_emptyFragment)
     }
 
     private fun setRecyclerViewList(movies: List<MovieEntity>) {
