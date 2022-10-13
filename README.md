@@ -23,7 +23,8 @@ O aplicativo foi criado com as seguintes ferramentas:
     > Optei por utilizar o koin como framework para injeção de dependência pela sua facilidade de implementação e também pela minha experiência anterior com ele.
 * LiveData e MutableLiveData
     > Utilizo esses observáveis por serem lifecycle-aware, pois isso garante que a atualização seja feita só nos componentes que estão ativos no clico de vida.
-
+* Navigation Component
+    > Um dos meus pontos preferidos do Architecture Components é o navigation. Antes dele, lidar com o vários fragmentos, era bem complicado. Salvar todas esses fluxos, os argumentos passados e os possíveis erros de `IllegalStateException` que ocorriam dava muita dor de cabeça. Agora com o navigation lidar com back stack, exceptions e etc. ficou muito mais fácil, além de dar uma visão melhor da navegação com o grafo do fluxo.
 * Mockk
   >  Escolhi o mockk por ser escrito em Kotlin e, por consequência, suportar extensions, final classes, singleton e outras coisas que facilitam mockar os recursos para testes mais sustentáveis.
 
