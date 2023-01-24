@@ -1,8 +1,9 @@
 pipeline {
   agent {
-         // Run on a build agent where we have the Android SDK installed
-         label 'android'
-     }
+          docker {
+              image 'androidsdk/android-30'
+          }
+      }
   environment {
           branch = 'develop'
           url = 'https://github.com/rafaelsouza-develop/android_challenge'
