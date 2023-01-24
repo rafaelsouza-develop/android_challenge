@@ -1,5 +1,7 @@
 pipeline {
-  agent any
+  agent {
+      node { label 'android' }
+    }
   environment {
           branch = 'develop'
           url = 'https://github.com/rafaelsouza-develop/android_challenge'
