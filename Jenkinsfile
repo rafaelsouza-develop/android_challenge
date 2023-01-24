@@ -1,14 +1,54 @@
 pipeline {
-  agent any
-  stages {
-    stage('error') {
-      steps {
-        withGradle() {
-          build 'clean'
-        }
-
+  agent {
+         // Run on a build agent where we have the Android SDK installed
+         label 'android'
+     }
+  environment {
+          branch = 'develop'
+          url = 'https://github.com/rafaelsouza-develop/android_challenge'
       }
-    }
+      stages {
 
-  }
+              stage('Checkout git') {
+                  steps {
+                      git branch: branch, credentialsId: '4a0786ea-791d-42b5-b6e7-80d2736c2590', url: url
+                  }
+              }
+
+              stage('Lint') {
+                  steps {
+                      sh "./gradlew lint"
+                  }
+              }
+
+              stage('Test') {
+                  steps {
+                      sh "./gradlew test --stacktrace"
+                  }
+              }
+
+
+
+              stage('Build') {
+                  steps {
+                      sh "./gradlew clean assembleRelease"
+                  }
+              }
+
+              stage('Publish') {
+                  parallel {
+                      stage('Firebase Distribution') {
+                          steps {
+                              sh "./gradlew appDistributionUploadRelease"
+                          }
+                      }
+
+                      stage('Google Play...') {
+                          steps {
+                              sh "echo 'Test...'"
+                          }
+                      }
+                  }
+              }
+          }
 }
