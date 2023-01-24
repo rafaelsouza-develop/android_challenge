@@ -1,10 +1,10 @@
 pipeline {
   agent any
   stages {
-    stage('') {
+    stage('error') {
       steps {
         withGradle() {
-          build 'assembleDebug'
+          build 'clean'
         }
 
       }
