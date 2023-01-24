@@ -1,60 +1,51 @@
-node("android"){
-  stage("Checkout"){
-    checkout scm
-  }
+pipeline {
+  agent any
+  environment {
+          branch = 'develop'
+          url = 'https://github.com/rafaelsouza-develop/android_challenge'
+      }
+      stages {
 
-  stage ("Prepare"){
-    sh 'chmod +x ./gradlew'
-  }
+              stage('Checkout git') {
+                  steps {
+                      git branch: branch, credentialsId: '4a0786ea-791d-42b5-b6e7-80d2736c2590', url: url
+                  }
+              }
 
-    stage("Build"){
-    if (params.BUILD_CONFIG == 'release') {
-      sh './gradlew clean assembleRelease' // builds app/build/outputs/apk/app-release.apk file
-    } else {
-      sh './gradlew clean assembleDebug' // builds app/build/outputs/apk/app-debug.apk
-    }
-  }
+              stage('Lint') {
+                  steps {
+                      sh "./gradlew lint"
+                  }
+              }
 
-  def keyStoreId = params.BUILD_CREDENTIAL_ID
-  def keyAlias = params.BUILD_CREDENTIAL_ALIAS ?: ''
-// Uncomment this stage if your keystore is external to your source code.
-//  stage("Sign"){
-//    if (params.BUILD_CONFIG == 'release') {
-//        signAndroidApks (
-//            keyStoreId: keyStoreId,
-//            keyAlias: keyAlias,
-//            apksToSign: "**/*-unsigned.apk",
-            // uncomment the following line to output the signed APK to a separate directory as described above
-            // signedApkMapping: [ $class: UnsignedApkBuilderDirMapping ],
-            // uncomment the following line to output the signed APK as a sibling of the unsigned APK, as described above, or just omit signedApkMapping
-            // you can override these within the script if necessary
-            // androidHome: '/usr/local/Cellar/android-sdk'
-       // )
-//    } else {
-//      println('Debug Build - Using default developer signing key')
-//    }
-// }
-
-stage('Kryptowire') {
-  //using a try-catch block so the pipeline script won't fail if the krypowire plugin is not installed
-  try {
-    if (params.BUILD_CONFIG == 'release') {
-      kwSubmit filePath: "app/build/outputs/apk/release/app-release.apk", platform: 'android'
-    } else {
-      kwSubmit filePath: "app/build/outputs/apk/debug/app-debug.apk", platform: 'android'
-    }
-  } catch(Error e) {
-        e.printStackTrace()
-  }
-}
+              stage('Test') {
+                  steps {
+                      sh "./gradlew test --stacktrace"
+                  }
+              }
 
 
 
- stage("Archive"){
-    if (params.BUILD_CONFIG == 'release') {
-        archiveArtifacts artifacts: 'app/build/outputs/apk/**/app-release.apk', excludes: 'app/build/outputs/apk/*-unaligned.apk'
-    } else {
-        archiveArtifacts artifacts: 'app/build/outputs/apk/**/app-debug.apk', excludes: 'app/build/outputs/apk/*-unaligned.apk'
-    }
-  }
+              stage('Build') {
+                  steps {
+                      sh "./gradlew clean assembleRelease"
+                  }
+              }
+
+              stage('Publish') {
+                  parallel {
+                      stage('Firebase Distribution') {
+                          steps {
+                              sh "./gradlew appDistributionUploadRelease"
+                          }
+                      }
+
+                      stage('Google Play...') {
+                          steps {
+                              sh "echo 'Test...'"
+                          }
+                      }
+                  }
+              }
+          }
 }
