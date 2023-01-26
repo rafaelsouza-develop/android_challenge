@@ -12,17 +12,26 @@ pipeline {
                   }
               }
 
+              stage('Lint') {
+                   steps {
+                   if (isUnix()) -->sh "./gradlew lint"
+                      else --> bat "./gradlew lint"
+                          }
+                   }
+
               stage('Test') {
                   steps {
-                      sh "./gradlew test --stacktrace"
+                  if (isUnix()) -->sh "./gradlew test --stacktrace"
+                       else --> bat "./gradlew test --stacktrace"
+
                   }
               }
 
-
-
               stage('Build') {
                   steps {
-                      sh "./gradlew clean assembleRelease"
+                  if (isUnix()) -->sh "./gradlew clean assembleRelease"
+                                         else --> bat "./gradlew clean assembleRelease"
+
                   }
               }
 
@@ -30,13 +39,9 @@ pipeline {
                   parallel {
                       stage('Firebase Distribution') {
                           steps {
-                              sh "./gradlew appDistributionUploadRelease"
-                          }
-                      }
+                          if (isUnix()) -->sh "./gradlew appDistributionUploadRelease"
+                              else --> bat "./gradlew appDistributionUploadRelease"
 
-                      stage('Google Play...') {
-                          steps {
-                              sh "echo 'Test...'"
                           }
                       }
                   }
