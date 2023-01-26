@@ -11,6 +11,12 @@ pipeline {
                       git branch: branch, credentialsId: '4a0786ea-791d-42b5-b6e7-80d2736c2590', url: url
                   }
               }
+        
+             stage('Build') {
+                  steps {
+                        bat "./gradlew clean assembleRelease"
+                  }
+              }
               
               stage('Test') {
                   steps {
@@ -24,11 +30,7 @@ pipeline {
                    }
               }
 
-              stage('Build') {
-                  steps {
-                        bat "./gradlew clean assembleRelease"
-                  }
-              }
+             
 
               stage('Publish') {
                   parallel {
