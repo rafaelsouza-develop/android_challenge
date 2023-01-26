@@ -14,10 +14,10 @@ pipeline {
         
              stage('Build') {
                   steps {
-                        bat "./gradlew clean assembleDebug"
+                        bat "./gradlew clean build  --refresh-dependencies assembleDebug"
                   }
               }
-              
+             
               stage('Test') {
                   steps {
                      bat "./gradlew test --stacktrace"
