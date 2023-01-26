@@ -14,23 +14,35 @@ pipeline {
 
               stage('Lint') {
                    steps {
-                   if (isUnix()) --> sh "./gradlew lint"
-                      else --> bat "./gradlew lint"
-                          }
+                    if (isUnix()){
+                            sh "./gradlew lint"
+                        }
+                    else {
+                      bat "./gradlew lint"
+                        }
                    }
+              }
 
               stage('Test') {
                   steps {
-                  if (isUnix()) --> sh "./gradlew test --stacktrace"
-                       else --> bat "./gradlew test --stacktrace"
+                    if (isUnix()) {
+                                sh "./gradlew test --stacktrace"
+                            }
+                    else {
+                       bat "./gradlew test --stacktrace"
+                    }
 
                   }
               }
 
               stage('Build') {
                   steps {
-                  if (isUnix()) --> sh "./gradlew clean assembleRelease"
-                                         else --> bat "./gradlew clean assembleRelease"
+                        if (isUnix()) {
+                                sh "./gradlew clean assembleRelease"
+                        }
+                        else {
+                                 bat "./gradlew clean assembleRelease"
+                        }
 
                   }
               }
@@ -39,8 +51,12 @@ pipeline {
                   parallel {
                       stage('Firebase Distribution') {
                           steps {
-                          if (isUnix()) --> sh "./gradlew appDistributionUploadRelease"
-                              else --> bat "./gradlew appDistributionUploadRelease"
+                            if (isUnix()) {
+                                    sh "./gradlew appDistributionUploadRelease"
+                            }
+                             else{
+                              bat "./gradlew appDistributionUploadRelease"
+                            }
 
                           }
                       }
