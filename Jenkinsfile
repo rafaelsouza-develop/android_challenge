@@ -15,6 +15,7 @@ pipeline {
               stage('Lint') {
                    steps {
                      bat "./gradlew lint"
+                   }
               }
 
               stage('Test') {
@@ -38,5 +39,5 @@ pipeline {
                       }
                   }
               }
-
+      }
 }
