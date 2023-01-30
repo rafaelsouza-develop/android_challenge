@@ -14,7 +14,7 @@ pipeline {
         
              stage('Build') {
                   steps {
-                        bat "./gradlew clean build  --refresh-dependencies assembleDebug -g C:\gradle-cache"
+                        bat "./gradlew clean build  --refresh-dependencies assembleDebug -g C:/gradle-cache"
                   }
               }
              
