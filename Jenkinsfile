@@ -14,19 +14,19 @@ pipeline {
         
              stage('Build') {
                   steps {
-                        bat "./gradlew clean build  --refresh-dependencies assembleDebug"
+                        sh "./gradlew clean build  --refresh-dependencies assembleDebug"
                   }
               }
              
               stage('Test') {
                   steps {
-                     bat "./gradlew test --stacktrace"
+                     sh "./gradlew test --stacktrace"
                   }
               }
 
               stage('Lint') {
                    steps {
-                     bat "./gradlew lint"
+                     sh "./gradlew lint"
                    }
               }
 
@@ -36,7 +36,7 @@ pipeline {
                   parallel {
                       stage('Firebase Distribution') {
                           steps {
-                            bat "./gradlew appDistributionUploadRelease"
+                            sh "./gradlew appDistributionUploadRelease"
                           }
                       }
                   }
