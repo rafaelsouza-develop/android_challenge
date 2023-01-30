@@ -20,13 +20,13 @@ pipeline {
              
               stage('Test') {
                   steps {
-                     bat "./gradlew test --stacktrace"
+                     bat "./gradlew test --stacktrace -g C:/gradle-cache"
                   }
               }
 
               stage('Lint') {
                    steps {
-                     bat "./gradlew lint"
+                     bat "./gradlew lint -g C:/gradle-cache"
                    }
               }
 
@@ -36,7 +36,7 @@ pipeline {
                   parallel {
                       stage('Firebase Distribution') {
                           steps {
-                            bat "./gradlew appDistributionUploadRelease"
+                            bat "./gradlew appDistributionUploadRelease -g C:/gradle-cache"
                           }
                       }
                   }
